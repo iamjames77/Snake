@@ -1,3 +1,4 @@
+//Game.h
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -14,11 +15,11 @@ class Game{
   vector<pair<int, int>>::iterator it;
 public:
   Game(int r = 21, int c =21);
-  void MakeMap();
-  void printmap();
-  void SnakeLoc();
+  void MakeMap(); //Map 생성
+  void printmap(); //Map 출력
+  void SnakeLoc(); //Snake의 위치 정보 업데이트
   void SnakeUp();
-  void SnakeDown();
+  void SnakeDown(); 
   void SnakeLeft();
   void SnakeRight();
 };
