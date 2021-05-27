@@ -26,7 +26,7 @@ int main()
       if((a=getch())!=key){key =a;}
       else
       {
-        continue;
+        continue; //contune를 안 쓰면 map이 출력이 됨.
       }
     }
     switch (key){
