@@ -2,6 +2,7 @@
 #include <vector>
 #include <ncurses.h>
 #include <algorithm>
+#include <unistd.h>
 #include <clocale>
 #include "Game.h"
 using namespace std;
@@ -53,7 +54,7 @@ void Game::MakeMap(){
 
 void Game::SnakeLoc()
 {
-  map[v[0].first][v[0].second] =3 ;
+  map[v.front().first][v.front().second] =3 ;
   for(int i=1; i<v.size(); i++)
   {
     map[v[i].first][v[i].second] = 4;
@@ -62,13 +63,45 @@ void Game::SnakeLoc()
 
 void Game::SnakeUp()
 {
-  it = find(v.begin(), v.end(), make_pair(v[0].first-1,v[0].second));
-  if(it == v.end())
+  if(map[v.front().first-1][v.front().second] == 0)
   {
-    v.insert(v.begin(),make_pair(v[0].first-1,v[0].second));
+    v.insert(v.begin(),make_pair(v.front().first-1,v.front().second));
+    map[v.back().first][v.back().second] = 0;
     v.pop_back();
   }
-  MakeMap();
+  printmap();
+}
+
+void Game::SnakeDown()
+{
+  if(map[v.front().first+1][v.front().second] == 0)
+  {
+    v.insert(v.begin(),make_pair(v.front().first+1,v.front().second));
+    map[v.back().first][v.back().second] = 0;
+    v.pop_back();
+  }
+  printmap();
+}
+
+void Game::SnakeLeft()
+{
+  if(map[v.front().first][v.front().second-1] == 0)
+  {
+    v.insert(v.begin(),make_pair(v.front().first,v.front().second-1));
+    map[v.back().first][v.back().second] = 0;
+    v.pop_back();
+  }
+  printmap();
+}
+
+void Game::SnakeRight()
+{
+  if(map[v.front().first][v.front().second+1] == 0)
+  {
+    v.insert(v.begin(),make_pair(v.front().first,v.front().second+1));
+    map[v.back().first][v.back().second] = 0;
+    v.pop_back();
+  }
   printmap();
 }
 
@@ -101,6 +134,5 @@ void Game::printmap(){
     }
     printw("\n");
   }
-  getch();
   refresh();
 }
