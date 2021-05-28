@@ -151,7 +151,7 @@ void Game::printmap(){
       }
       else if (map[i][j] == 3)
       {
-        mvprintw(i,2*j,"A ");
+        mvprintw(i,2*j,"H ");
       }
       else if (map[i][j] == 4)
       {
