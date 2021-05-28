@@ -17,7 +17,6 @@ int main()
   keypad(stdscr, TRUE);
   int key = KEY_LEFT;
   int a;
-  int i = 21;
   g1.printmap();
   while(1)
   {
@@ -29,20 +28,22 @@ int main()
         continue; //contune를 안 쓰면 map이 출력이 됨.
       }
     }
-    switch (key){
-      case KEY_LEFT:
-          g1.SnakeLeft();
-          break;
-      case KEY_RIGHT:
-          g1.SnakeRight();
-          break;
-      case KEY_UP:
-          g1.SnakeUp();
-          break;
-      case KEY_DOWN:
-          g1.SnakeDown();
-          break;
-      }
+    g1.SnakeMove(key);
+    if(g1.grow%5 == 0 && g1.item<3 && g1.item_g!=1)
+    {
+      g1.Growth();
+      g1.grow = 0;
+      g1.item++;
+      g1.item_g++;
+    }
+    if(g1.poison%5 == 0 && g1.item<3 && g1.item_g!=0)
+    {
+      g1.Poison();
+      g1.poison = 0;
+      g1.item++;
+    }
+    g1.grow++;
+    g1.poison++;
     usleep(500000);
   }
   endwin();

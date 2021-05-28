@@ -60,49 +60,75 @@ void Game::SnakeLoc()
     map[v[i].first][v[i].second] = 4;
   }
 }
-
-void Game::SnakeUp()
+void Game::SnakeMove(int key)
 {
-  if(map[v.front().first-1][v.front().second] == 0)
-  {
-    v.insert(v.begin(),make_pair(v.front().first-1,v.front().second));
-    map[v.back().first][v.back().second] = 0;
-    v.pop_back();
-  }
-  printmap();
+  int x,y;
+  switch (key){
+    case KEY_LEFT:
+        x = v.front().first;
+        y = v.front().second-1;
+        break;
+    case KEY_RIGHT:
+        x = v.front().first;
+        y = v.front().second+1;
+        break;
+    case KEY_UP:
+        x = v.front().first-1;
+        y = v.front().second;
+        break;
+    case KEY_DOWN:
+        x = v.front().first+1;
+        y = v.front().second;
+        break;
+    }
+    if(map[x][y] == 0 || (x==v.back().first && y == v.back().second))
+    {
+      map[v.back().first][v.back().second] = 0;
+      v.pop_back();
+      v.insert(v.begin(),make_pair(x,y));
+    }
+    else if(map[x][y] == 5)
+    {
+      v.insert(v.begin(),make_pair(x,y));
+      item--;
+      item_g--;
+    }
+    else if(map[x][y] == 6)
+    {
+      map[v.back().first][v.back().second] = 0;
+      v.pop_back();
+      map[v.back().first][v.back().second] = 0;
+      v.pop_back();
+      v.insert(v.begin(),make_pair(x,y));
+      item--;
+    }
+    printmap();
 }
 
-void Game::SnakeDown()
+void Game::Growth()
 {
-  if(map[v.front().first+1][v.front().second] == 0)
+  srand(time(NULL));
+  int x = rand() % (row-2) + 1;
+  int y = rand() % (col-2) + 1;
+  while(map[x][y]!=0)
   {
-    v.insert(v.begin(),make_pair(v.front().first+1,v.front().second));
-    map[v.back().first][v.back().second] = 0;
-    v.pop_back();
+    x = rand() % (row-2) + 1;
+    y = rand() % (col-2) + 1;
   }
-  printmap();
+  map[x][y] =5;
 }
 
-void Game::SnakeLeft()
+void Game::Poison()
 {
-  if(map[v.front().first][v.front().second-1] == 0)
+  srand(time(NULL));
+  int x = rand() % (row-2) + 1;
+  int y = rand() % (col-2) + 1;
+  while(map[x][y]!=0)
   {
-    v.insert(v.begin(),make_pair(v.front().first,v.front().second-1));
-    map[v.back().first][v.back().second] = 0;
-    v.pop_back();
+    x = rand() % (row-2) + 1;
+    y = rand() % (col-2) + 1;
   }
-  printmap();
-}
-
-void Game::SnakeRight()
-{
-  if(map[v.front().first][v.front().second+1] == 0)
-  {
-    v.insert(v.begin(),make_pair(v.front().first,v.front().second+1));
-    map[v.back().first][v.back().second] = 0;
-    v.pop_back();
-  }
-  printmap();
+  map[x][y] =6;
 }
 
 void Game::printmap(){
@@ -130,6 +156,14 @@ void Game::printmap(){
       else if (map[i][j] == 4)
       {
         mvprintw(i,2*j,"B ");
+      }
+      else if (map[i][j] == 5)
+      {
+        mvprintw(i,2*j,"G ");
+      }
+      else if (map[i][j] == 6)
+      {
+        mvprintw(i,2*j,"P  ");
       }
     }
     printw("\n");
