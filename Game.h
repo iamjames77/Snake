@@ -7,7 +7,6 @@
 using namespace std;
 
 class Game{
-  int snakesize;
   int **map;
   int row;
   int col;

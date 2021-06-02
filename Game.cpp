@@ -16,7 +16,6 @@ Game::Game(int r,int c,int lv){
   {
     map[i] = new int[col];
   }
-  snakesize = 3;
   MakeMap();
 }
 
@@ -541,7 +540,6 @@ void Game::printmap(){
       }
     }
     scoreboard();
-    printw("\n");
   }
   refresh();
 }
@@ -607,7 +605,7 @@ void Game::GameFail()
   mvwprintw(win1, row/2-1, col-14, "click any key to continue");
   wborder(win1, '*','*','*','*','*','*','*','*');
   wrefresh(win1);
-  getch();
+  wgetch(win1);
   item = 0;
   item_g=0;
   grow = 0;
@@ -640,6 +638,6 @@ void Game::GameSuccess()
   }
   wborder(win1, '*','*','*','*','*','*','*','*');
   wrefresh(win1);
-  getch();
+  wgetch(win1);
   delwin(win1);
 }
