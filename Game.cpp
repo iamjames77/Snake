@@ -64,7 +64,7 @@ void Game::Play()
     {
       GameFail();
     }
-    if(v.size() >= 7 && g_number >= 5 && p_number >= 2 && gate_number >=2)
+    if(v.size() >= 7 && g_number >= 6 && p_number >= 2 && gate_number >=2)
     {
       GameSuccess();
       break;
@@ -122,7 +122,7 @@ void Game::MakeMap(){
     }
   }
   v.clear();
-  if (level == 1)
+  if (level !=2)
   {
     v.push_back(make_pair(row/2, col/2 - 1));
     v.push_back(make_pair(row/2, col/2));
@@ -141,15 +141,49 @@ void Game::LevelUp(int lv)
 {
   if(lv == 2)
   {
-    for(int i=4;i<row-4;i++)
-    {
-      map[col/2][i] = 1;
-    }
     for(int i=4;i<col-4;i++)
     {
-      map[i][row/2] = 1;
+      map[row/2][i] = 1;
     }
-    map[col/2][row/2] = 2;
+    for(int i=4;i<row-4;i++)
+    {
+      map[i][col/2] = 1;
+    }
+    map[row/2][col/2] = 2;
+  }
+  else if(lv ==3)
+  {
+    for(int i=2;i<col-2;i++)
+    {
+      map[2][i] = 1;
+      map[row-3][i] = 1;
+    }
+    map[2][col/2] = 0;
+    map[row-3][col/2] = 0;
+    for(int i=2;i<row-2;i++)
+    {
+      map[i][2] = 1;
+      map[i][col-3] = 1;
+    }
+    map[row/2][2] = 0;
+    map[row/2][col-3] = 0;
+  }
+  else if(lv ==4)
+  {
+    for(int i=2;i<col-2;i++)
+    {
+      map[row/2-1][i] = 1;
+      map[row/2+1][i] = 1;
+    }
+    map[row/2-1][col/2] = 0;
+    map[row/2+1][col/2] = 0;
+    for(int i=2;i<row-2;i++)
+    {
+      map[i][col/2-1] = 1;
+      map[i][col/2+1] = 1;
+    }
+    map[row/2][col/2-1] = 0;
+    map[row/2][col/2+1] = 0;
   }
 }
 
@@ -516,7 +550,7 @@ void Game::scoreboard()
 {
   mvprintw(1,2*col+2,"Score Board");
   mvprintw(2,2*col+2,"B: %d / 7",v.size());
-  mvprintw(3,2*col+2,"+: %d / 5",g_number);
+  mvprintw(3,2*col+2,"+: %d / 6",g_number);
   mvprintw(4,2*col+2,"-: %d / 2",p_number);
   mvprintw(5,2*col+2,"G: %d / 2",gate_number);
   mvprintw(row/2+1,2*col+2,"Misson Board");
@@ -528,13 +562,13 @@ void Game::scoreboard()
   {
     mvprintw(row/2+2,2*col+2,"B: 7(\u2716)");
   }
-  if(g_number >= 5)
+  if(g_number >= 6)
   {
-    mvprintw(row/2+3,2*col+2,"+: 5(\u2713)");
+    mvprintw(row/2+3,2*col+2,"+: 6(\u2713)");
   }
   else
   {
-    mvprintw(row/2+3,2*col+2,"+: 5(\u2716)");
+    mvprintw(row/2+3,2*col+2,"+: 6(\u2716)");
   }
   if(p_number >= 2)
   {
@@ -596,7 +630,14 @@ void Game::GameSuccess()
   WINDOW* win1;
   win1 = newwin(row-2,col*3-4,1,2);
   start_color();
-  mvwprintw(win1, row/2-1, col-14, "click any key to play next stage");
+  if(level!=4)
+  {
+    mvwprintw(win1, row/2-1, col-14, "click any key to play next stage");
+  }
+  else
+  {
+    mvwprintw(win1, row/2-1, col-8, "Game Clear");
+  }
   wborder(win1, '*','*','*','*','*','*','*','*');
   wrefresh(win1);
   getch();

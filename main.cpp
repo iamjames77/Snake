@@ -1,9 +1,5 @@
 #include <iostream>
 #include <ncurses.h>
-#include <vector>
-#include <algorithm>
-#include <locale.h>
-#include <unistd.h>
 #include "Game.h"
 using namespace std;
 
