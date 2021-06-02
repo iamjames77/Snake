@@ -7,7 +7,7 @@
 #include "Game.h"
 using namespace std;
 
-Game::Game(int r,int c,int lv){
+Game::Game(int r,int c,int lv){ //생성자
   row = r;
   col = c;
   level = lv;
@@ -20,7 +20,7 @@ Game::Game(int r,int c,int lv){
   MakeMap();
 }
 
-void Game::Play()
+void Game::Play() //Game 실행 함
 {
   setlocale(LC_ALL, "");
   initscr();
@@ -73,7 +73,7 @@ void Game::Play()
   }
 }
 
-bool Game::kbhit()
+bool Game::kbhit() //키보드 입력받았는지 확인하는 함수
 {
   int ch;
   bool ret;
@@ -93,7 +93,7 @@ bool Game::kbhit()
   return ret;
 }
 
-void Game::MakeMap(){
+void Game::MakeMap(){ //Map 생
   for(int i=0; i<col;i++)
   {
     if(i == 0 || i == col-1)
@@ -137,7 +137,7 @@ void Game::MakeMap(){
   LevelUp(level);
 }
 
-void Game::LevelUp(int lv)
+void Game::LevelUp(int lv) // 레벨에 따라 맵 수정하는 함수
 {
   if(lv == 2)
   {
@@ -187,7 +187,7 @@ void Game::LevelUp(int lv)
   }
 }
 
-void Game::SnakeLoc()
+void Game::SnakeLoc() // Snake 위치 표현하는 함수
 {
   map[v.front().first][v.front().second] =3 ;
   for(int i=1; i<v.size(); i++)
@@ -195,7 +195,7 @@ void Game::SnakeLoc()
     map[v[i].first][v[i].second] = 4;
   }
 }
-void Game::SnakeMove(int* key)
+void Game::SnakeMove(int* key) //Snake 이동함수
 {
   int x,y;
   switch (*key){
@@ -316,7 +316,7 @@ void Game::SnakeMove(int* key)
     printmap();
 }
 
-void Game::Growth()
+void Game::Growth() //Snake 길이 증가 함수
 {
   srand(time(NULL));
   int x = rand() % (row-2) + 1;
@@ -329,7 +329,7 @@ void Game::Growth()
   map[x][y] =5;
 }
 
-void Game::Poison()
+void Game::Poison() //Snake 길이 감소 함수
 {
   srand(time(NULL));
   int x = rand() % (row-2) + 1;
@@ -342,7 +342,7 @@ void Game::Poison()
   map[x][y] =6;
 }
 
-void Game::Gate()
+void Game::Gate() //Gate 생성 함수
 {
   if (map[g1_x][g1_y] == 7 && map[g2_x][g2_y] == 8)
   {
@@ -370,7 +370,7 @@ void Game::Gate()
   g2_y = y;
 }
 
-void Game::GateNotOnTheWall(int *x, int* y, int **key, int data)
+void Game::GateNotOnTheWall(int *x, int* y, int **key, int data) // Gate가 외벽이 아닌 내부에 있는 벽에 있을 시 
 {
   int X, Y;
   int i=0;
@@ -501,7 +501,7 @@ void Game::GateNotOnTheWall(int *x, int* y, int **key, int data)
   }
 }
 
-void Game::printmap(){
+void Game::printmap(){ // Map 
   SnakeLoc();
   for(int i=0;i<row;i++)
   {
@@ -546,7 +546,7 @@ void Game::printmap(){
   refresh();
 }
 
-void Game::scoreboard()
+void Game::scoreboard() // 점수판 
 {
   mvprintw(1,2*col+2,"Score Board");
   mvprintw(2,2*col+2,"B: %d / 7",v.size());
@@ -599,7 +599,7 @@ void Game::scoreboard()
   }
 }
 
-void Game::GameFail()
+void Game::GameFail() // 게임실패시 나오는 윈도우 출력함수
 {
   WINDOW* win1;
   win1 = newwin(row-2,col*2-4,1,2);
@@ -625,7 +625,7 @@ void Game::GameFail()
   delwin(win1);
 }
 
-void Game::GameSuccess()
+void Game::GameSuccess() //게임 성공시 나오는 윈도우 출력함수
 {
   WINDOW* win1;
   win1 = newwin(row-2,col*3-4,1,2);
