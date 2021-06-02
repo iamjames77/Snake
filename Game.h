@@ -7,8 +7,8 @@
 using namespace std;
 
 class Game{
-  int **map;
-  int row;
+  int **map; //map 데이터
+  int row;//
   int col;
   int level;
   int item = 0;
